@@ -2,19 +2,8 @@ from crawl.crawl_data import CrawlData
 from dataprocess.process import DataProcess
 import requests
 
-data = DataProcess(dataframe_path="ikea_products_mentor_data.csv")
-i=0
+data = DataProcess(dataframe_path="last_16h.csv")
+driver = CrawlData()
 
-for (index,link) in enumerate(data.product_link):
-    try:
-        response = requests.get(link)
-        if str(response.url) == "https://www.ikea.com/sa/en/cat/products-products/":
-            data.delete_colunm(index=index)
-            i+=1
-            print(f"{i} products have been deleted")
-    except:
-        print("Surpass")
-
-data.dataframe.to_csv("new_data.csv")
-
+driver.crawl_image(data.product_link,data.dataframe,empty_value=True,start_point =0)
 
